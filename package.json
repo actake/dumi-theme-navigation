@@ -45,13 +45,16 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/lodash": "^4.14.191",
     "@umijs/lint": "^4.0.0",
+    "antd": "4.16.13",
     "dumi": "^2.0.2",
     "eslint": "^8.23.0",
     "father": "^4.1.0",
     "father-plugin-dumi-theme": "^1.0.0-beta.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
+    "lodash": "^4.17.21",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
     "prettier-plugin-packagejson": "^2.2.18",
@@ -60,6 +63,7 @@
     "stylelint": "^14.9.1"
   },
   "peerDependencies": {
+    "antd": ">=4.16.13",
     "dumi": "^2.0.2",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
