@@ -1,9 +1,9 @@
 import { Menu, MenuProps } from 'antd';
 import { NavLink, useLocation } from 'dumi';
-import { omit } from 'lodash';
+import { isEmpty, omit } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useCustomData } from '../../context';
-import { useGetter } from '../../hooks';
+import { useCheck } from '../../hooks';
 import { MenuItem, Menus } from '../../type';
 import { transformToArray } from '../../utils';
 
@@ -44,7 +44,7 @@ const getNestedMenuPath = (
         tempPathStore,
       );
 
-      if (result) {
+      if (result && !isEmpty(result)) {
         return result;
       }
     }
@@ -57,7 +57,7 @@ const LEAF_SUFFIX = '-leaf';
 
 export const NestedSidebar = () => {
   const { pathname } = useLocation();
-  const { getRootNav } = useGetter();
+  const { isLeafMenu } = useCheck();
   const {
     sidebar: { current: currentNavSidebar },
   } = useCustomData();
@@ -72,7 +72,7 @@ export const NestedSidebar = () => {
     const newSelectedKeys = newOpenKeys.map((key, index, arr) =>
       index === arr.length - 1 ? `${key}${LEAF_SUFFIX}` : key,
     );
-    setOpenKeys(newOpenKeys);
+    setOpenKeys(Array.from(new Set([...newOpenKeys, ...openKeys])));
     setSelectedKeys(newSelectedKeys);
   };
 
@@ -86,7 +86,7 @@ export const NestedSidebar = () => {
 
   useEffect(() => {
     initKeys();
-  }, [getRootNav(pathname)]);
+  }, [pathname]);
 
   const renderChildren = (children: MenuItem) => {
     const title = getMenuTitle(children);
@@ -102,11 +102,7 @@ export const NestedSidebar = () => {
 
   const renderNestedMenu = (menuData: Menus | MenuItem) => {
     return transformToArray(menuData).map((item) => {
-      const isLeaf = !!['md', 'mdx', 'tsx'].find((suffix) =>
-        item?.frontmatter?.filename?.includes(`${item.link}.${suffix}`),
-      );
-
-      if (isLeaf) {
+      if (isLeafMenu(item)) {
         return renderChildren(item);
       }
 

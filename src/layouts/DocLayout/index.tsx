@@ -16,6 +16,7 @@ import Hero from 'dumi/theme/slots/Hero';
 import Toc from 'dumi/theme/slots/Toc';
 import React, { useEffect, useState, type FC } from 'react';
 import { useCustomData, withCustomDataContext } from '../../context';
+import { useCheck } from '../../hooks';
 import { CustomSidebar } from '../../slots/CustomSidebar';
 import './index.less';
 
@@ -29,7 +30,7 @@ const DocLayout: FC = () => {
   const { loading } = useSiteData();
   const [showSidebar, setShowSidebar] = useState(false);
   const { frontmatter: fm } = useRouteMeta();
-
+  const { shouldEnableNestedSidebar } = useCheck();
   // handle hash change or visit page hash after async chunk loaded
   useEffect(() => {
     const id = hash.replace('#', '');
@@ -93,9 +94,8 @@ const DocLayout: FC = () => {
           {outlet}
           <Footer />
         </Content>
-        {fm.toc !== 'menu' && (
+        {(shouldEnableNestedSidebar() || fm.toc !== 'menu') && (
           <div className="dumi-default-doc-layout-toc-wrapper">
-            <h4>TABLE OF CONTENTS</h4>
             <Toc />
           </div>
         )}

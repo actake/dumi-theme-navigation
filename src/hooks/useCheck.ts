@@ -1,5 +1,6 @@
 import { useLocation } from 'dumi';
 import { useCallback } from 'react';
+import { MenuItem } from '../type';
 import { useThemeConfig } from './useThemeConfig';
 
 export const useCheck = () => {
@@ -30,8 +31,22 @@ export const useCheck = () => {
     [nav, pathname],
   );
 
+  /**
+   * 是否为叶子菜单
+   */
+  const isLeafMenu = (menuItem: MenuItem) => {
+    return !!['md', 'mdx', 'tsx'].find((suffix: string) => {
+      const lowercaseFilename = menuItem?.frontmatter?.filename
+        ?.replace(/-/g, '')
+        .toLowerCase();
+      const lowercaseLink = menuItem?.link?.replace(/-/g, '').toLowerCase();
+      return lowercaseFilename?.includes(`${lowercaseLink}.${suffix}`);
+    });
+  };
+
   return {
     shouldEnableNestedSidebar,
     isRootNestedSidebarPath,
+    isLeafMenu,
   };
 };

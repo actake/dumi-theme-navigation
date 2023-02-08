@@ -39,29 +39,32 @@ const Toc: FC = () => {
           prevIndexRef.current = currentElementIndexInViewport;
 
         return (
-          <ul className="dumi-default-toc">
-            {toc
-              .filter(({ depth }) => depth > 1 && depth < 4)
-              .map((item, i) => {
-                const link = `#${encodeURIComponent(item.id)}`;
-                const activeIndex =
-                  currentElementIndexInViewport > -1
-                    ? currentElementIndexInViewport
-                    : prevIndexRef.current;
+          <React.Fragment>
+            <h4>TABLE OF CONTENTS</h4>
+            <ul className="dumi-default-toc">
+              {toc
+                .filter(({ depth }) => depth > 1 && depth < 4)
+                .map((item, i) => {
+                  const link = `#${encodeURIComponent(item.id)}`;
+                  const activeIndex =
+                    currentElementIndexInViewport > -1
+                      ? currentElementIndexInViewport
+                      : prevIndexRef.current;
 
-                return (
-                  <li key={item.id} data-depth={item.depth}>
-                    <Link
-                      to={link}
-                      title={item.title}
-                      {...(activeIndex === i ? { className: 'active' } : {})}
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                );
-              })}
-          </ul>
+                  return (
+                    <li key={item.id} data-depth={item.depth}>
+                      <Link
+                        to={link}
+                        title={item.title}
+                        {...(activeIndex === i ? { className: 'active' } : {})}
+                      >
+                        {item.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+            </ul>
+          </React.Fragment>
         );
       }}
     </ScrollSpy>

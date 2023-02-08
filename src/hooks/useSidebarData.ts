@@ -1,4 +1,5 @@
 import { useFullSidebarData } from 'dumi';
+import { cloneDeep } from 'lodash';
 import { useMemo } from 'react';
 import { MenuItem, Menus } from '../type';
 import { transformToArray, transformToNestedTree } from '../utils';
@@ -12,7 +13,12 @@ export const useSidebarData = () => {
     return Object.entries(fullSidebarData)
       .reduce<Menus>((prev, entriesItem) => {
         const [, sidebarItem] = entriesItem;
-        return [...prev, ...transformToArray(sidebarItem[0]?.children)];
+        return [
+          ...prev,
+          ...transformToArray(sidebarItem).reduce<Menus>((acc, current) => {
+            return [...acc, ...(current?.children || [])];
+          }, []),
+        ];
       }, [])
       .map((data) => {
         const currentNodeLinkArray = data?.link?.split('/');
@@ -29,7 +35,7 @@ export const useSidebarData = () => {
   }, [fullSidebarData]);
 
   const allNestedSidebar = useMemo(() => {
-    return transformToNestedTree<MenuItem>(flatternSidebar);
+    return transformToNestedTree<MenuItem>(cloneDeep(flatternSidebar));
   }, [flatternSidebar]);
 
   const currentSidebar = useMemo(() => {
