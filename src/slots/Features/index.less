@@ -1,6 +1,8 @@
 @import (reference) '../../styles/variables.less';
 
 .@{prefix}-features {
+  @icon-size: 64px;
+
   margin: 0 auto 48px;
   max-width: @s-content-width;
   padding: 0 24px;
@@ -36,6 +38,7 @@
   &-item {
     margin: 12px 0;
     float: left;
+    text-align: center;
 
     > i {
       font-size: 64px;
@@ -44,6 +47,11 @@
       @media @mobile {
         font-size: 48px;
       }
+    }
+
+    > img {
+      width: @icon-size;
+      height: @icon-size;
     }
 
     > h3 {
