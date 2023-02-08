@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "dumi/theme/*": ["src/*", "node_modules/dumi/theme-default/*"]
+      "dumi/theme/*": ["src/*"]
     }
   }
 }
