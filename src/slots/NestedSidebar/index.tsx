@@ -106,8 +106,9 @@ export const NestedSidebar = () => {
         return renderChildren(item);
       }
 
+      const subMenuTitle = getMenuTitle(item);
       return (
-        <Menu.SubMenu key={item.link} title={item.link.split('/').at(-1)}>
+        <Menu.SubMenu key={item.link} title={subMenuTitle}>
           {item.children &&
             item.children.map((child: MenuItem) => {
               return renderNestedMenu(child);
