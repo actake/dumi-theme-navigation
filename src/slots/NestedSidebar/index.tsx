@@ -90,7 +90,13 @@ export const NestedSidebar = () => {
 
   const renderChildren = (children: MenuItem) => {
     const title = getMenuTitle(children);
-    const { link } = children;
+    const { link, frontmatter } = children;
+
+    // 如果 skip / skipLeaf 为 true，则跳过该节点
+    if (!link || frontmatter?.skip || frontmatter?.skipLeaf) {
+      return null;
+    }
+
     return (
       <Menu.Item key={`${link}${LEAF_SUFFIX}`}>
         <NavLink title={title} to={link} end>
@@ -107,6 +113,14 @@ export const NestedSidebar = () => {
       }
 
       const subMenuTitle = getMenuTitle(item);
+      if (
+        !item?.link ||
+        item?.frontmatter?.skip ||
+        item?.frontmatter?.skipDir
+      ) {
+        return null;
+      }
+
       return (
         <Menu.SubMenu key={item.link} title={subMenuTitle}>
           {item.children &&
@@ -119,7 +133,7 @@ export const NestedSidebar = () => {
     });
   };
 
-  if (!currentNavSidebar) return null;
+  if (!currentNavSidebar || isEmpty(currentNavSidebar)) return null;
 
   return (
     <div className="dumi-nested-sidebar">

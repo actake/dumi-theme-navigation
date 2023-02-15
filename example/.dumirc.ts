@@ -2,6 +2,8 @@ import { defineConfig } from 'dumi';
 import { join } from 'path';
 
 export default defineConfig({
+  publicPath: '/mcdocs/',
+  base: '/mcdocs/',
   // disable mfsu for HMR
   mfsu: false,
   // pass theme config
